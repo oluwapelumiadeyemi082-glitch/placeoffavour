@@ -1,0 +1,164 @@
+// Prisma schema for RCCG Place of Favour (Phase 3).
+// Mirrors the content types in `src/types/content.ts` so the public site and the
+// admin dashboard share one source of truth once the database is connected.
+//
+// See README.md -> "Database (Phase 3)" for the Neon PostgreSQL setup steps.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Administration roles for the dashboard (Phase 4).
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+/// Admin account. Passwords are hashed (see Phase 4 authentication).
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      Role     @default(EDITOR)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Weekly service programmes shown on /services and the homepage.
+model ChurchService {
+  id          String @id
+  title       String
+  description String
+  day         String
+  time        String
+  location    String
+  image       String
+  order       Int
+}
+
+/// Sermons shown on /sermons and the homepage. `date` is stored at UTC midnight.
+model Sermon {
+  id          String   @id
+  slug        String   @unique
+  title       String
+  preacher    String
+  date        DateTime
+  description String
+  scripture   String
+  image       String
+  audioUrl    String?
+  videoUrl    String?
+}
+
+/// Events shown on /events. `date`/`endDate` are stored at UTC midnight.
+model ChurchEvent {
+  id          String    @id
+  slug        String    @unique
+  title       String
+  date        DateTime
+  time        String
+  location    String
+  description String
+  image       String
+  endDate     DateTime?
+}
+
+/// Ministries shown on /ministries and the homepage.
+model Ministry {
+  id          String  @id
+  name        String
+  tagline     String
+  description String
+  leader      String?
+  image       String
+  contact     String?
+  order       Int     @default(0)
+}
+
+/// Leaders shown on /leadership and the about page.
+model Leader {
+  id       String  @id
+  name     String
+  position String
+  bio      String
+  image    String
+  socials  Json?
+  order    Int     @default(0)
+}
+
+/// Testimonies. Only rows with `isApproved = true` are shown publicly;
+/// the public submission form creates rows with `isApproved = false`.
+model Testimonial {
+  id         String   @id
+  name       String
+  email      String?
+  message    String
+  isApproved Boolean  @default(false)
+  order      Int      @default(0)
+  createdAt  DateTime @default(now())
+}
+
+/// Gallery albums shown on /gallery.
+model GalleryAlbum {
+  id          String         @id
+  slug        String         @unique
+  name        String
+  description String
+  cover       String
+  order       Int            @default(0)
+  images      GalleryImage[]
+}
+
+/// Photos belonging to a gallery album.
+model GalleryImage {
+  id       String       @id
+  album    GalleryAlbum @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  albumId  String
+  src      String
+  alt      String
+  caption  String?
+}
+
+/// Core values shown on /about (ordered).
+model CoreValue {
+  id          String @id
+  title       String
+  description String
+  order       Int
+}
+
+/// Church-history milestones shown on /about (ordered by year).
+model Milestone {
+  id          String @id
+  year        String
+  title       String
+  description String
+  order       Int
+}
+
+/// Singleton (id "default") holding the free-text About page copy.
+model AboutContent {
+  id           String  @id
+  history      String[]
+  vision       String
+  mission      String
+  leadersIntro String
+  welcome      String
+}
+
+/// Messages submitted through the public contact form (Phase 4 admin inbox).
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}

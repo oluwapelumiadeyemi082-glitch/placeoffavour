@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, Arial, sans-serif;
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+
+  --color-brand-50: #eff5fc;
+  --color-brand-100: #e0ebf8;
+  --color-brand-200: #c3d8f1;
+  --color-brand-300: #97bce5;
+  --color-brand-400: #6497d5;
+  --color-brand-500: #3f77c1;
+  --color-brand-600: #2f5da3;
+  --color-brand-700: #294c84;
+  --color-brand-800: #25406d;
+  --color-brand-900: #14294e;
+  --color-brand-950: #0b1830;
+
+  --color-gold-50: #fcf8ec;
+  --color-gold-100: #f8efd0;
+  --color-gold-200: #efdda0;
+  --color-gold-300: #e6c66c;
+  --color-gold-400: #ddae45;
+  --color-gold-500: #cc9b2f;
+  --color-gold-600: #ad7d24;
+  --color-gold-700: #8a5e1e;
+  --color-gold-800: #714c1e;
+  --color-gold-900: #60401c;
+
+  --color-cream-50: #fbf9f4;
+  --color-cream-100: #f5efe3;
+  --color-cream-200: #ebe0c9;
+  --color-cream-300: #ddcaa6;
+  --color-cream-400: #cfb477;
+
+  --color-ink-300: #a9b2bc;
+  --color-ink-400: #7d8895;
+  --color-ink-500: #566372;
+  --color-ink-600: #3d4a59;
+  --color-ink-700: #2c3643;
+  --color-ink-800: #232c37;
+  --color-ink-900: #18202b;
+
+  --shadow-soft: 0 10px 40px -12px rgb(11 24 48 / 0.16);
+  --shadow-lift: 0 24px 60px -18px rgb(11 24 48 / 0.28);
+  --shadow-gold: 0 18px 45px -14px rgb(204 155 47 / 0.45);
+
+  --animate-fade-up: fade-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: fade-in 1s ease both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6.5rem;
+  }
+
+  body {
+    @apply bg-cream-50 font-sans text-ink-800 antialiased;
+  }
+
+  ::selection {
+    @apply bg-gold-300/70 text-brand-950;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-gold-500;
+  }
+}
