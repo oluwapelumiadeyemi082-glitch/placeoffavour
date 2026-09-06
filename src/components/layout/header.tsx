@@ -6,7 +6,6 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { navLinks, site } from "@/lib/site";
 import { Container } from "@/components/ui/container";
-import { Logo } from "@/components/ui/logo";
 import { Button } from "@/components/ui/button";
 import { Icon } from "@/components/ui/icon";
 
@@ -66,9 +65,24 @@ export function Header() {
             href="/"
             aria-label={`${site.name} — home`}
             onClick={() => setOpen(false)}
-            className="shrink-0"
+            className="flex shrink-0 items-center gap-3"
           >
-            <Logo />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo-2.png"
+              alt={`${site.name} logo`}
+              className="h-12 w-auto object-contain"
+              width={1024}
+              height={1024}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/logo-1.jpg"
+              alt={`${site.name} emblem`}
+              className="hidden h-12 w-auto object-contain sm:block"
+              width={571}
+              height={537}
+            />
           </Link>
 
           <nav aria-label="Main" className="hidden items-center gap-0.5 xl:flex">
