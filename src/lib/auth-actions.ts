@@ -66,9 +66,10 @@ export async function login(_prev: AuthState, formData: FormData): Promise<AuthS
 }
 
 /** Signs the current visitor out. */
-export async function logout(): Promise<void> {
+export async function logout(formData?: FormData): Promise<void> {
   await destroySession();
-  redirect("/");
+  const target = formData?.get("target");
+  redirect(typeof target === "string" && target ? target : "/");
 }
 
 /** Returns role + id for the signed-in user, or null. */

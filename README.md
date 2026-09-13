@@ -3,10 +3,11 @@
 Official website and content management platform for **RCCG Place of Favour
 Area Headquarters** (`placeoffavour.org`), built with Next.js (App Router).
 
-> **Status: Phase 3 (database layer).** The public site renders placeholder
+> **Status: Phase 5 (admin dashboard).** The public site renders placeholder
 > content and reads from PostgreSQL (Neon) via Prisma whenever `DATABASE_URL` is
-> configured and seeded. Authentication and the admin dashboard come in later
-> phases — see the roadmap at the bottom.
+> configured and seeded. Sign-in pages and the admin dashboard are live; content
+> editing persists only once a database is connected — see the roadmap at the
+> bottom.
 
 ## Tech stack
 
@@ -83,16 +84,24 @@ prisma/
 src/
   app/
     (site)/              # Public website (pages, routes)
-    admin/               # Admin dashboard (Phase 4+)
+    admin/
+      (dashboard)/       # Admin dashboard shell + content pages
+      login/             # Admin sign-in page
     layout.tsx           # Root layout (fonts, metadata)
     globals.css          # Design tokens (Tailwind v4 @theme)
   components/
     layout/              # Header, Footer
+    admin/               # Admin sidebar, DB badge, entity forms
     home/                # Homepage sections
     ui/                  # Reusable primitives (Button, Card, Icon, …)
   lib/
-    actions.ts           # Server Actions (form submissions)
-    data/content.ts      # Data-access layer (DB w/ static fallback)
+    actions.ts           # Server Actions (public form submissions)
+    auth-actions.ts      # Server Actions (sign in / sign out)
+    admin-actions.ts     # Server Actions (dashboard create/edit/delete)
+    data/content.ts      # Public data-access layer (DB w/ static fallback)
+    data/admin.ts        # Admin data access (full-rows, incl. drafts)
+    auth.ts              # Password hashing + signed session tokens
+    session.ts           # Cookie session helpers (next/headers)
     db.ts                # Lazy Prisma client + DB availability gate
     content/             # Placeholder content (fallback data)
     site.ts              # Site-wide config (name, nav, contacts, socials)
@@ -108,8 +117,8 @@ All colors, fonts, spacing and animation tokens live in `globals.css`.
 1. ✅ **Phase 1** — Project architecture, design system, basic UI
 2. ✅ **Phase 2** — Complete the public website content
 3. ✅ **Phase 3** — Prisma schema + Neon PostgreSQL integration
-4. ⏳ **Phase 4** — Authentication & authorization
-5. ⏳ **Phase 5** — Admin dashboard
+4. ✅ **Phase 4** — Authentication & authorization
+5. ✅ **Phase 5** — Admin dashboard
 6. ⏳ **Phase 6** — Connect all CMS features to the database
 7. ⏳ **Phase 7** — Validation, security, SEO, accessibility, performance
 8. ⏳ **Phase 8** — Testing pass

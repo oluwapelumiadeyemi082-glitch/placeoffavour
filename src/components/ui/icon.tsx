@@ -29,6 +29,7 @@ type IconName =
   | "heart"
   | "globe"
   | "share"
+  | "trash"
   | "tiktok"
   | "facebook"
   | "instagram"
@@ -74,6 +75,7 @@ const paths: Record<IconName, React.ReactNode> = {
     <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
   ),
   globe: <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" />,
+  trash: <path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M10 11v6M14 11v6" />,
   share: <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" />,
   tiktok: <path d="M19.5 5.5a5.3 5.3 0 0 1-1.8-3.5h-3.2v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6.05.9.13V9.16a6.2 6.2 0 0 0-.9-.06 6.3 6.3 0 1 0 6.3 6.3V9.9a8.4 8.4 0 0 0 4.1 1.13V7.8a5.3 5.3 0 0 1-3.5-2.3z" />,
   facebook: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />,
