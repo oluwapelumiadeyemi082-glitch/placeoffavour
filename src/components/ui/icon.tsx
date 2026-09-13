@@ -29,6 +29,7 @@ type IconName =
   | "heart"
   | "globe"
   | "share"
+  | "tiktok"
   | "facebook"
   | "instagram"
   | "youtube"
@@ -74,6 +75,7 @@ const paths: Record<IconName, React.ReactNode> = {
   ),
   globe: <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20M2 12h20" />,
   share: <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6l-4-4-4 4M12 2v13" />,
+  tiktok: <path d="M19.5 5.5a5.3 5.3 0 0 1-1.8-3.5h-3.2v13.2a2.9 2.9 0 1 1-2.9-2.9c.3 0 .6.05.9.13V9.16a6.2 6.2 0 0 0-.9-.06 6.3 6.3 0 1 0 6.3 6.3V9.9a8.4 8.4 0 0 0 4.1 1.13V7.8a5.3 5.3 0 0 1-3.5-2.3z" />,
   facebook: <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />,
   instagram: <path d="M4 4h16v16H4zM12 8.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zM17 7h.01" />,
   youtube: <path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17" />,
@@ -87,7 +89,7 @@ interface IconProps extends Omit<SVGProps<SVGSVGElement>, "name"> {
 
 export function Icon({ name, className, ...props }: IconProps) {
   const iconPath = paths[name];
-  const isFilled = name === "play" || name === "twitter";
+  const isFilled = name === "play" || name === "twitter" || name === "tiktok";
   return (
     <svg
       viewBox="0 0 24 24"
@@ -105,6 +107,6 @@ export function Icon({ name, className, ...props }: IconProps) {
   );
 }
 
-export function SocialIcon({ name }: { name: "facebook" | "instagram" | "youtube" | "twitter" | "whatsapp" }) {
+export function SocialIcon({ name }: { name: "tiktok" | "facebook" | "instagram" | "youtube" | "twitter" | "whatsapp" }) {
   return <Icon name={name} className="h-4 w-4" />;
 }

@@ -24,34 +24,23 @@ export function Header() {
         <Container className="flex h-10 items-center justify-between">
           <div className="flex items-center gap-6">
             <span className="inline-flex items-center gap-2">
-              <Icon name="mapPin" className="h-3.5 w-3.5 text-gold-400" />
-              {site.address.line1}, {site.address.line2}
-            </span>
-            <a
-              href={`tel:${site.phoneHref}`}
-              className="inline-flex items-center gap-2 transition-colors hover:text-gold-300"
-            >
-              <Icon name="phone" className="h-3.5 w-3.5 text-gold-400" />
-              {site.phone}
-            </a>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="inline-flex items-center gap-2">
               <Icon name="clock" className="h-3.5 w-3.5 text-gold-400" />
               Sundays · 10:00 AM
             </span>
-            <span aria-hidden="true" className="h-3 w-px bg-white/20" />
+          </div>
+          <div className="flex items-center gap-4">
             <div className="flex items-center gap-3">
-              {(["facebook", "instagram", "youtube", "twitter"] as const).map((s) => (
+              {(["tiktok", "facebook", "youtube"] as const).map((s) => (
                 <a
                   key={s}
-                  href={site.socials[s]}
+                  href={site.socials[s].url}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${site.name} on ${s}`}
-                  className="text-white/60 transition-colors hover:text-gold-300"
+                  className="inline-flex items-center gap-1.5 text-white/60 transition-colors hover:text-gold-300"
                 >
-                  <Icon name={s} className="h-3.5 w-3.5" />
+                  <Icon name={s} className="h-3.5 w-3.5 text-gold-400" />
+                  {site.socials[s].handle}
                 </a>
               ))}
             </div>
@@ -147,13 +136,20 @@ export function Header() {
                 <Button href="/give" size="sm" className="flex-1">
                   Give Online
                 </Button>
-                <a
-                  href={`tel:${site.phoneHref}`}
-                  aria-label="Call the church office"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-950/15 text-brand-900"
-                >
-                  <Icon name="phone" className="h-4 w-4" />
-                </a>
+                <div className="flex items-center gap-2">
+                  {(["tiktok", "facebook", "youtube"] as const).map((s) => (
+                    <a
+                      key={s}
+                      href={site.socials[s].url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${site.name} on ${s}`}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-brand-950/15 text-brand-900"
+                    >
+                      <Icon name={s} className="h-4 w-4" />
+                    </a>
+                  ))}
+                </div>
               </div>
             </Container>
           </nav>

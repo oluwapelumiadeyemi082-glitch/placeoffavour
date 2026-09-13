@@ -9,24 +9,27 @@ import { ContactForm } from "@/components/contact-form";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with RCCG Place of Favour Area Headquarters — visit us, call us, or send a message through the contact form.",
+    "Get in touch with RCCG Place of Favour Area Headquarters — follow us on TikTok, Facebook and YouTube, or send a message through the contact form.",
 };
 
 const cards = [
   {
-    icon: "mapPin" as const,
-    title: "Visit Us",
-    lines: [site.address.line1, site.address.line2],
+    platform: "tiktok" as const,
+    title: "TikTok",
+    lines: [site.socials.tiktok.handle],
+    url: site.socials.tiktok.url,
   },
   {
-    icon: "phone" as const,
-    title: "Call Us",
-    lines: [site.phone, "Sunday · 10:00 AM service (placeholder)"],
+    platform: "facebook" as const,
+    title: "Facebook",
+    lines: [site.socials.facebook.handle],
+    url: site.socials.facebook.url,
   },
   {
-    icon: "mail" as const,
-    title: "Email Us",
-    lines: [site.email, "We respond within a few days"],
+    platform: "youtube" as const,
+    title: "YouTube",
+    lines: [site.socials.youtube.handle],
+    url: site.socials.youtube.url,
   },
 ];
 
@@ -49,7 +52,7 @@ export default function ContactPage() {
                 className="rounded-2xl border border-brand-950/[0.06] bg-white p-6 shadow-soft"
               >
                 <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-950 text-gold-300">
-                  <Icon name={card.icon} className="h-5 w-5" />
+                  <Icon name={card.platform} className="h-5 w-5" />
                 </span>
                 <h2 className="mt-4 font-display text-lg font-semibold text-brand-950">
                   {card.title}
@@ -59,6 +62,15 @@ export default function ContactPage() {
                     {line}
                   </p>
                 ))}
+                <a
+                  href={card.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-900 transition-colors hover:text-gold-700"
+                >
+                  Follow us
+                  <Icon name="arrowUpRight" className="h-4 w-4" />
+                </a>
               </div>
             ))}
           </div>
@@ -86,13 +98,27 @@ export default function ContactPage() {
                 />
                 <div className="relative flex flex-col items-center gap-3 text-center">
                   <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gold-400/15 text-gold-300">
-                    <Icon name="mapPin" className="h-7 w-7" />
+                    <Icon name="share" className="h-7 w-7" />
                   </span>
                   <p className="max-w-xs font-display text-lg font-semibold text-white">
-                    {site.address.line1}, {site.address.line2}
+                    Join us on social media
                   </p>
+                  <div className="flex items-center gap-3">
+                    {(["tiktok", "facebook", "youtube"] as const).map((s) => (
+                      <a
+                        key={s}
+                        href={site.socials[s].url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${site.name} on ${s}`}
+                        className="flex h-11 w-11 items-center justify-center rounded-full border border-gold-400/30 text-gold-300 transition-colors hover:bg-gold-400/10"
+                      >
+                        <Icon name={s} className="h-5 w-5" />
+                      </a>
+                    ))}
+                  </div>
                   <p className="text-xs uppercase tracking-[0.2em] text-white/50">
-                    Interactive map comes with address confirmation
+                    Connect with @RCCGPOF
                   </p>
                 </div>
               </div>

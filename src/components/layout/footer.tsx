@@ -40,20 +40,18 @@ export function Footer() {
               all.
             </p>
             <div className="mt-6 flex items-center gap-3">
-              {(["facebook", "instagram", "youtube", "twitter", "whatsapp"] as const).map(
-                (s) => (
-                  <a
-                    key={s}
-                    href={site.socials[s]}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${site.name} on ${s}`}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all hover:border-gold-400 hover:text-gold-300"
-                  >
-                    <Icon name={s} className="h-4 w-4" />
-                  </a>
-                ),
-              )}
+              {(["tiktok", "facebook", "youtube"] as const).map((s) => (
+                <a
+                  key={s}
+                  href={site.socials[s].url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${site.name} on ${s}`}
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all hover:border-gold-400 hover:text-gold-300"
+                >
+                  <Icon name={s} className="h-4 w-4" />
+                </a>
+              ))}
             </div>
           </div>
 
@@ -110,24 +108,19 @@ export function Footer() {
               ))}
             </ul>
             <ul className="mt-6 space-y-2.5 text-sm text-white/60">
-              <li className="flex items-start gap-2.5">
-                <Icon name="mapPin" className="mt-0.5 h-4 w-4 shrink-0 text-gold-400" />
-                <span>
-                  {site.address.line1}, {site.address.line2}
-                </span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Icon name="phone" className="h-4 w-4 shrink-0 text-gold-400" />
-                <a href={`tel:${site.phoneHref}`} className="transition-colors hover:text-gold-300">
-                  {site.phone}
-                </a>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Icon name="mail" className="h-4 w-4 shrink-0 text-gold-400" />
-                <a href={`mailto:${site.email}`} className="transition-colors hover:text-gold-300">
-                  {site.email}
-                </a>
-              </li>
+              {(["tiktok", "facebook", "youtube"] as const).map((s) => (
+                <li key={s} className="flex items-center gap-2.5">
+                  <Icon name={s} className="h-4 w-4 shrink-0 text-gold-400" />
+                  <a
+                    href={site.socials[s].url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition-colors hover:text-gold-300"
+                  >
+                    {site.socials[s].handle}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

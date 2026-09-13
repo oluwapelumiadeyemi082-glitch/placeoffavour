@@ -17,11 +17,9 @@ export const site = {
     line2: "[City], [State], Nigeria",
   },
   socials: {
-    facebook: "https://facebook.com/",
-    instagram: "https://instagram.com/",
-    youtube: "https://youtube.com/",
-    twitter: "https://x.com/",
-    whatsapp: "https://wa.me/2340000000000",
+    tiktok: { handle: "@RCCGPOF", url: "https://www.tiktok.com/@RCCGPOF" },
+    facebook: { handle: "RCCG Place of Favour", url: "https://www.facebook.com/" },
+    youtube: { handle: "@RCCGPOF", url: "https://www.youtube.com/@RCCGPOF" },
   },
   adminPath: "/admin",
 } as const;
