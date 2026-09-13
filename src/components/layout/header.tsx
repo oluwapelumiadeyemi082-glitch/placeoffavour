@@ -44,6 +44,14 @@ export function Header() {
                 </a>
               ))}
             </div>
+            <span aria-hidden="true" className="h-3 w-px bg-white/20" />
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-1.5 font-semibold text-white/80 transition-colors hover:text-gold-300"
+            >
+              <Icon name="users" className="h-3.5 w-3.5 text-gold-400" />
+              Sign in
+            </Link>
           </div>
         </Container>
       </div>

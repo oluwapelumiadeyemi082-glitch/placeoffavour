@@ -108,6 +108,12 @@ export function Footer() {
               ))}
             </ul>
             <ul className="mt-6 space-y-2.5 text-sm text-white/60">
+              <li className="flex items-start gap-2.5">
+                <Icon name="mapPin" className="mt-0.5 h-4 w-4 shrink-0 text-gold-400" />
+                <span>
+                  {site.address.line1}, {site.address.line2}
+                </span>
+              </li>
               {(["tiktok", "facebook", "youtube"] as const).map((s) => (
                 <li key={s} className="flex items-center gap-2.5">
                   <Icon name={s} className="h-4 w-4 shrink-0 text-gold-400" />

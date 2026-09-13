@@ -11,6 +11,7 @@
  */
 
 import { PrismaClient } from "@prisma/client";
+import { hashPassword } from "../src/lib/auth";
 import { services } from "../src/lib/content/services";
 import { sermons } from "../src/lib/content/sermons";
 import { events } from "../src/lib/content/events";
@@ -28,6 +29,25 @@ function isoDate(iso: string): Date {
 
 async function main() {
   console.log("Seeding database…");
+
+  // Admin account -------------------------------------------------------------
+  const adminEmail = (process.env.ADMIN_EMAIL ?? "admin@placeoffavour.org").toLowerCase();
+  const adminPassword = process.env.ADMIN_PASSWORD ?? "Favour@2024";
+  await prisma.user.upsert({
+    where: { email: adminEmail },
+    update: {
+      role: "SUPER_ADMIN",
+      passwordHash: hashPassword(adminPassword),
+      updatedAt: new Date(),
+    },
+    create: {
+      email: adminEmail,
+      name: "Site Administrator",
+      role: "SUPER_ADMIN",
+      passwordHash: hashPassword(adminPassword),
+    },
+  });
+  console.log(`  admin user: ${adminEmail}`);
 
   // Services ---------------------------------------------------------------
   for (const service of services) {

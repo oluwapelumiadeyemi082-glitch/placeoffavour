@@ -13,8 +13,8 @@ export const site = {
   phone: "+234 000 000 0000",
   phoneHref: "+2340000000000",
   address: {
-    line1: "[Church Address, Street]",
-    line2: "[City], [State], Nigeria",
+    line1: "Modupe Bakare Street, Selewu Igbogbo",
+    line2: "Ikorodu, Lagos State",
   },
   socials: {
     tiktok: { handle: "@RCCGPOF", url: "https://www.tiktok.com/@RCCGPOF" },

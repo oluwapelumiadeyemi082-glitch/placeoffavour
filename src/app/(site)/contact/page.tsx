@@ -14,6 +14,12 @@ export const metadata: Metadata = {
 
 const cards = [
   {
+    platform: "mapPin" as const,
+    title: "Visit Us",
+    lines: [site.address.line1, site.address.line2],
+    url: null as string | null,
+  },
+  {
     platform: "tiktok" as const,
     title: "TikTok",
     lines: [site.socials.tiktok.handle],
@@ -45,7 +51,7 @@ export default function ContactPage() {
 
       <section className="py-16 sm:py-20">
         <Container>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {cards.map((card) => (
               <div
                 key={card.title}
@@ -62,15 +68,17 @@ export default function ContactPage() {
                     {line}
                   </p>
                 ))}
-                <a
-                  href={card.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-900 transition-colors hover:text-gold-700"
-                >
-                  Follow us
-                  <Icon name="arrowUpRight" className="h-4 w-4" />
-                </a>
+                {card.url ? (
+                  <a
+                    href={card.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-brand-900 transition-colors hover:text-gold-700"
+                  >
+                    Follow us
+                    <Icon name="arrowUpRight" className="h-4 w-4" />
+                  </a>
+                ) : null}
               </div>
             ))}
           </div>
@@ -98,10 +106,10 @@ export default function ContactPage() {
                 />
                 <div className="relative flex flex-col items-center gap-3 text-center">
                   <span className="flex h-14 w-14 items-center justify-center rounded-full bg-gold-400/15 text-gold-300">
-                    <Icon name="share" className="h-7 w-7" />
+                    <Icon name="mapPin" className="h-7 w-7" />
                   </span>
                   <p className="max-w-xs font-display text-lg font-semibold text-white">
-                    Join us on social media
+                    {site.address.line1}, {site.address.line2}
                   </p>
                   <div className="flex items-center gap-3">
                     {(["tiktok", "facebook", "youtube"] as const).map((s) => (
