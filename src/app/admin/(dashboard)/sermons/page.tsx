@@ -71,7 +71,7 @@ export default async function AdminSermonsPage() {
                 { name: "date", label: "Date", type: "date" },
                 { name: "scripture", label: "Scripture", type: "text" },
                 { name: "description", label: "Description", type: "textarea", rows: 3 },
-                { name: "image", label: "Image URL", type: "url" },
+                { name: "image", label: "Image", type: "image" },
                 { name: "audioUrl", label: "Audio URL (optional)", type: "url" },
                 { name: "videoUrl", label: "Video URL (optional)", type: "url" },
               ]}

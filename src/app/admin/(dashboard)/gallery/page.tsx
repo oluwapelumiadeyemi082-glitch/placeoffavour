@@ -1,8 +1,9 @@
 import { getAdminGalleryAlbums, getAdminGalleryImages } from "@/lib/data/admin";
-import { saveAlbum, deleteAlbum } from "@/lib/admin-actions";
+import { saveAlbum, deleteAlbum, deleteGalleryImage } from "@/lib/admin-actions";
 import { getDb } from "@/lib/db";
 import { AdminReadOnlyBanner } from "@/components/admin/db-badge";
 import { EntityForm, EntitySubmitButton } from "@/components/admin/entity-form";
+import { GalleryImageForm } from "@/components/admin/gallery-image-form";
 import { Icon } from "@/components/ui/icon";
 
 export const metadata = { title: "Gallery" };
@@ -16,7 +17,9 @@ export default async function AdminGalleryPage() {
     <div>
       <div className="mb-6">
         <h1 className="font-display text-3xl font-medium text-brand-950">Gallery</h1>
-        <p className="mt-1 text-sm text-ink-500">Albums and photos shown on /gallery.</p>
+        <p className="mt-1 text-sm text-ink-500">
+          Albums and photos shown on /gallery. Anything you upload here appears on the public site immediately.
+        </p>
       </div>
 
       {!dbConnected ? <AdminReadOnlyBanner /> : null}
@@ -48,15 +51,55 @@ export default async function AdminGalleryPage() {
                     </EntitySubmitButton>
                   </form>
                 </div>
-                <div className="grid grid-cols-2 gap-px bg-brand-950/[0.06] sm:grid-cols-4">
-                  {(albumImages.length > 0 ? albumImages : [{ id: album.id, src: album.cover, albumSlug: album.slug, alt: album.name }]).map(
-                    (img) => (
-                      <div key={img.id} className="bg-white">
+
+                <div className="p-5">
+                  {albumImages.length > 0 ? (
+                    <div className="grid grid-cols-2 gap-px bg-brand-950/[0.06] sm:grid-cols-4">
+                      {albumImages.map((img) => (
+                        <form
+                          key={img.id}
+                          action={deleteGalleryImage}
+                          className="group relative block bg-white"
+                        >
+                          <input type="hidden" name="id" value={img.id} />
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={img.src}
+                            alt={img.alt}
+                            className="aspect-square w-full object-cover"
+                          />
+                          <button
+                            type="submit"
+                            disabled={!dbConnected}
+                            title="Delete this photo"
+                            className="absolute right-1.5 top-1.5 rounded-full bg-red-600/90 p-1.5 text-white opacity-0 shadow-md transition-opacity hover:bg-red-700 focus:opacity-100 group-hover:opacity-100 disabled:opacity-0"
+                          >
+                            <Icon name="close" className="h-3.5 w-3.5" />
+                          </button>
+                        </form>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-px bg-brand-950/[0.06] sm:grid-cols-4">
+                      <div className="bg-white">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={img.src} alt={img.alt} className="aspect-square w-full object-cover" />
+                        <img
+                          src={album.cover}
+                          alt={album.name}
+                          className="aspect-square w-full object-cover"
+                        />
                       </div>
-                    ),
+                      <div className="flex items-center justify-center bg-white text-xs text-ink-400">
+                        No photos yet
+                      </div>
+                    </div>
                   )}
+
+                  <GalleryImageForm
+                    albumId={album.id}
+                    albumName={album.name}
+                    dbConnected={dbConnected}
+                  />
                 </div>
               </div>
             );
@@ -66,7 +109,8 @@ export default async function AdminGalleryPage() {
         <section className="rounded-2xl border border-brand-950/[0.06] bg-white p-6 shadow-soft">
           <h2 className="font-display text-xl font-medium text-brand-950">Add an album</h2>
           <p className="mt-1 text-sm text-ink-500">
-            Photos are added per album in a later phase (file upload). Cover image can be any URL.
+            Create an album, then use the &ldquo;Add a photo&rdquo; boxes on the left once it appears.
+            Cover image can be uploaded or pasted as a URL.
           </p>
           <div className="mt-4">
             <EntityForm
@@ -76,7 +120,7 @@ export default async function AdminGalleryPage() {
               fields={[
                 { name: "name", label: "Name", type: "text" },
                 { name: "description", label: "Description", type: "textarea", rows: 2 },
-                { name: "cover", label: "Cover image URL", type: "url" },
+                { name: "cover", label: "Cover image", type: "image" },
                 { name: "order", label: "Order", type: "number", value: 0 },
               ]}
             />

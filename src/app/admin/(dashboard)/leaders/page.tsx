@@ -67,7 +67,7 @@ export default async function AdminLeadersPage() {
                 { name: "name", label: "Name", type: "text" },
                 { name: "position", label: "Position", type: "text" },
                 { name: "bio", label: "Short bio", type: "textarea", rows: 3 },
-                { name: "image", label: "Image URL", type: "url" },
+                { name: "image", label: "Image", type: "image" },
                 { name: "order", label: "Order", type: "number", value: 0 },
               ]}
             />

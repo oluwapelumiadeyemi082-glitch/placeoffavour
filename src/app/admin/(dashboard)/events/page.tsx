@@ -72,7 +72,7 @@ export default async function AdminEventsPage() {
                 { name: "time", label: "Time", type: "text" },
                 { name: "location", label: "Location", type: "text" },
                 { name: "description", label: "Description", type: "textarea", rows: 3 },
-                { name: "image", label: "Image URL", type: "url" },
+                { name: "image", label: "Image", type: "image" },
               ]}
             />
           </div>

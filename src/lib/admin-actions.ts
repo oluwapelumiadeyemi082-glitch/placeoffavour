@@ -55,7 +55,10 @@ function nextId(prefix: string): string {
 
 function revalidateAdmin(path?: string): void {
   revalidatePath("/admin");
-  revalidatePath(path ?? "/");
+  if (path) revalidatePath(path);
+  revalidatePath("/");
+  revalidatePath("/sermons/[slug]", "page");
+  revalidatePath("/events/[slug]", "page");
 }
 
 /* Services ---------------------------------------------------------- */
@@ -330,6 +333,59 @@ export async function deleteAlbum(formData: FormData): Promise<void> {
     await gate.client.galleryAlbum.delete({ where: { id } });
   } catch (error) {
     console.error("[admin] deleteAlbum failed:", error);
+  }
+  revalidateAdmin("/gallery");
+}
+
+const MAX_IMAGE_BYTES = 25 * 1024 * 1024;
+
+export async function saveGalleryImage(
+  _prev: AdminActionResult,
+  formData: FormData,
+): Promise<AdminActionResult> {
+  const gate = await guard();
+  if ("error" in gate) return { ok: false, error: gate.error };
+
+  const albumId = nonEmpty(formData.get("albumId"));
+  const src = formData.get("src");
+  if (!albumId) return { ok: false, error: "Please choose an album." };
+  if (!(src instanceof File) || src.size === 0) {
+    return { ok: false, error: "Please choose an image file to upload." };
+  }
+  if (src.size > MAX_IMAGE_BYTES) {
+    return { ok: false, error: "The image is too large. Please pick a file under 25 MB." };
+  }
+
+  const album = await gate.client.galleryAlbum.findUnique({ where: { id: albumId } });
+  if (!album) return { ok: false, error: "That album no longer exists." };
+
+  const bytes = Buffer.from(await src.arrayBuffer());
+  const dataUri = `data:${src.type};base64,${bytes.toString("base64")}`;
+
+  const id = nextId("img");
+  const caption = optional(formData.get("caption"));
+  const alt = nonEmpty(formData.get("alt")) || caption || album.name;
+
+  try {
+    await gate.client.galleryImage.create({
+      data: { id, albumId, src: dataUri, alt, caption },
+    });
+    revalidateAdmin("/gallery");
+    return { ok: true };
+  } catch (error) {
+    console.error("[admin] saveGalleryImage failed:", error);
+    return { ok: false, error: "Could not save the image. Please try again." };
+  }
+}
+
+export async function deleteGalleryImage(formData: FormData): Promise<void> {
+  const gate = await guard();
+  const id = nonEmpty(formData.get("id"));
+  if ("error" in gate || !id) return;
+  try {
+    await gate.client.galleryImage.delete({ where: { id } });
+  } catch (error) {
+    console.error("[admin] deleteGalleryImage failed:", error);
   }
   revalidateAdmin("/gallery");
 }

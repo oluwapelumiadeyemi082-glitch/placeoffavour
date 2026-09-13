@@ -69,7 +69,7 @@ export default async function AdminMinistriesPage() {
                 { name: "description", label: "Description", type: "textarea", rows: 3 },
                 { name: "leader", label: "Leader (optional)", type: "text" },
                 { name: "contact", label: "Contact (optional)", type: "text" },
-                { name: "image", label: "Image URL", type: "url" },
+                { name: "image", label: "Image", type: "image" },
                 { name: "order", label: "Order", type: "number", value: 0 },
               ]}
             />

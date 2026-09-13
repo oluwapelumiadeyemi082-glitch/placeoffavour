@@ -11,10 +11,14 @@ interface CoverImageProps {
   fallbackIcon?: "flame" | "sparkles" | "cross";
 }
 
+function isDataUri(s: string): boolean {
+  return s.startsWith("data:");
+}
+
 /**
- * Responsive image used on cards. Renders the provided image (local or remote
- * URL) with `next/image`; otherwise shows an elegant branded fallback so the
- * layout never breaks while content placeholders are in use.
+ * Responsive image used on cards. Renders the provided image (local, remote
+ * URL, or base64 data URI from uploads) with `next/image`; otherwise shows
+ * an elegant branded fallback so the layout never breaks.
  */
 export function CoverImage({
   src,
@@ -27,14 +31,23 @@ export function CoverImage({
   return (
     <div className={cn("relative overflow-hidden bg-brand-900/90", className)}>
       {src ? (
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes={sizes}
-          priority={priority}
-          className="object-cover"
-        />
+        isDataUri(src) ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={src}
+            alt={alt}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <Image
+            src={src}
+            alt={alt}
+            fill
+            sizes={sizes}
+            priority={priority}
+            className="object-cover"
+          />
+        )
       ) : (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-gold-300/80">
           <span

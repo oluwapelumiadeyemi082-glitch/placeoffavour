@@ -3,11 +3,13 @@
 import { useActionState } from "react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { ImageField } from "@/components/admin/image-field";
 import type { AdminActionResult } from "@/lib/admin-actions";
 
 type Field =
   | { name: string; label: string; type: "text" | "url" | "date" | "number"; value?: string | number }
   | { name: string; label: string; type: "textarea"; value?: string; rows?: number }
+  | { name: string; label: string; type: "image"; value?: string }
   | { name: string; label: string; type: "hidden"; value?: string };
 
 const inputBase =
@@ -16,6 +18,9 @@ const inputBase =
 function FieldInput({ field }: { field: Field }) {
   if (field.type === "hidden") {
     return <input type="hidden" name={field.name} value={field.value ?? ""} />;
+  }
+  if (field.type === "image") {
+    return <ImageField name={field.name} label={field.label} value={field.value} />;
   }
   const id = `field-${field.name}`;
   return (

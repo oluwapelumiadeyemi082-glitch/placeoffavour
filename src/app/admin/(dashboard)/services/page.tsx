@@ -74,7 +74,7 @@ export default async function AdminServicesPage() {
                 { name: "time", label: "Time", type: "text" },
                 { name: "location", label: "Location", type: "text" },
                 { name: "description", label: "Description", type: "textarea", rows: 3 },
-                { name: "image", label: "Image URL", type: "url" },
+                { name: "image", label: "Image", type: "image" },
                 { name: "order", label: "Order", type: "number", value: 0 },
               ]}
             />
